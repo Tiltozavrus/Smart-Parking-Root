@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
+      - POSTGRES_MULTIPLE_DATABASES=identy,parking
+    ports:
+      - 5432:5432
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data/
+  smart-park-identy-back:
+    build: ./Smart-Park-Identy/.
+    environment:
+      IDENTY_DATABASE_URI: postgresql://root:root@postgres:5432/identy
+      IDENTY_SECRET: super_secret
+      IDENTY_REFRESH_SECRET: refresh_super_secret
+    ports:
+      - 5001:3000
+  smart-park-back:
+    build: ./Smart-Park-Main/.
+    environment:
+      PARKING_DATABASE_URI: postgresql://root:root@postgres:5432/parking
+      PARKING_AUTH_API_URI: http://smart-park-identy-back:3000
+    ports:
+      - 5002:3001
+
+volumes:
+  postgres_data:

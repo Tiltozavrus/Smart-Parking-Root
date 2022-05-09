@@ -1,0 +1,6 @@
+[submodule "Smart-Park-Main"]
+	path = Smart-Park-Main
+	url = https://github.com/Tiltozavrus/Smart-Park-Main
+[submodule "Smart-Park-Identy"]
+	path = Smart-Park-Identy
+	url = https://github.com/Tiltozavrus/Smart-Park-Identy
